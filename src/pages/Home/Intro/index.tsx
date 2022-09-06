@@ -54,12 +54,16 @@ const IntroContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 2rem 10rem;
-    height: 34rem;
 `
 
 const IntroTextDiv = styled.div`
-    max-width: 40rem;
-    min-width: 25rem;
+    max-width: calc(40rem + 2rem);
+    min-width: calc(25rem + 2rem);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.1px);
+    border: 1px solid rgba(128, 71, 248, 0.01);
+    padding: 2rem;
 `
 
 const IntroTitleDiv = styled.div`
