@@ -1,11 +1,11 @@
 import { Intro } from "./Intro";
-import { Menu } from "./Menu/menu";
+import { MenuCafeteria } from "./Menu/MenuCafeteria";
 
 export function Home(){
     return (
         <main>
             <Intro/>
-            <Menu/>
+            <MenuCafeteria/>
         </main>
     )
 }
