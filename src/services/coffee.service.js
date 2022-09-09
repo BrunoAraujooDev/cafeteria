@@ -8,7 +8,6 @@ export async function getCoffeeMenu()  {
         const resp = await http.get();
         return resp.data;
     } catch(error){
-        console.log('error', error)
-        return error.message();
+        return error.AxiosError;
     }
 }

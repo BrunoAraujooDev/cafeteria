@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useReducer } from "react";
 import { MenuReducer } from "../reducers/reducer";
-import { getCoffeeMenu } from "../services/coffee.service";
 
 
 export interface Menu {
@@ -14,7 +13,6 @@ export interface Menu {
 interface MenuContextType {
     menuSelected?: Menu[]
     countCoffeeSelected?: number | null
-    coffeeList: Menu[]
 }
 
 interface MenuContextProp {
@@ -24,7 +22,7 @@ interface MenuContextProp {
 export const MenuContext = createContext({} as MenuContextType);
 
 
-export function MenuContextProvider({children } : MenuContextProp){
+export async function MenuContextProvider({children } : MenuContextProp){
 
 
     const [menuState, dispatch] = useReducer(MenuReducer, 
@@ -37,13 +35,8 @@ export function MenuContextProvider({children } : MenuContextProp){
 
     const { menuSelected, countCoffeeSelected } = menuState;
 
-    let coffeeList: Menu[] = []
-
-    getCoffeeMenu().then(resp => coffeeList = resp)
-
-
 return (
-    <MenuContext.Provider value={{menuSelected, countCoffeeSelected, coffeeList }}>
+    <MenuContext.Provider value={{menuSelected, countCoffeeSelected }}>
         {children}
     </MenuContext.Provider>
 )

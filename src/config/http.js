@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let api = 'https://api.sampleapis.com/coffee/hot';
+let api = '../db.json';
 
 const http = axios.create({
   baseURL: api,

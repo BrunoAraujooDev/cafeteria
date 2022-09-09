@@ -1,17 +1,20 @@
 
-import { useEffect, useState } from "react"
+import { Minus, Plus, ShoppingCartSimple } from "phosphor-react"
+import { useContext, useEffect, useState } from "react"
 import styled from "styled-components"
-import { Menu } from "../../../context/MenuContext"
+import { Menu, MenuContext } from "../../../context/MenuContext"
 import { getCoffeeMenu } from "../../../services/coffee.service"
 
 
 
+export function MenuCafeteria() {
 
-
-
-export function MenuCafeteria(){
-
+    console.log('oi');
     
+
+    const { countCoffeeSelected, menuSelected } = useContext(MenuContext)
+
+
     const [menuData, setMenuData] = useState<Menu[]>([{
         title: '',
         description: '',
@@ -20,33 +23,187 @@ export function MenuCafeteria(){
         id: 0
     }])
 
-    
-    
-    
-    
+    useEffect(() => {
+        getCoffeeMenu().then(resp => setMenuData(resp));
+    }, [])
+
+
+
 
     return (
-        <section>
+        <ContainerMenu>
             <h3>Nossos cafés</h3>
 
-            <CardItem>
-                { menuData.map((item: Menu) =>  {
+            <CardContainer>
+                {menuData.map((item: Menu) => {
                     return (
-                        <div key={item.id}>
-                            <img src={item.image} alt="" />
-                        </div>
+                        <CardItem key={item.id}>
+                            <CardImage src={item.image} alt={item.description} />
+                            <TagDiv>
+                                {item.ingredients.map((item) => {
+                                    return (
+
+                                        <TagItem key={item}>{item}</TagItem>
+
+                                    )
+                                })}
+                            </TagDiv>
+                            <CardTitle>{item.title}</CardTitle>
+                            <CardDescription>{item.description}</CardDescription>
+                            <CardValueDiv>
+                                <SpanPrice>R$ <span>9,90</span></SpanPrice>
+                                <CountDiv>
+                                    <span>
+                                        <Minus weight="fill" />
+                                    </span>
+                                    <p>
+                                        1
+                                    </p>
+                                    <span>
+                                        <Plus weight="fill" />
+                                    </span>
+                                </CountDiv>
+                                <CartIcon>
+                                    <ShoppingCartSimple weight="fill" />
+                                </CartIcon>
+                            </CardValueDiv>
+                        </CardItem>
                     )
-                } )}
-            </CardItem>
-        </section>
+                })}
+            </CardContainer>
+
+        </ContainerMenu>
     )
 }
 
-const CardItem = styled.div`
-    height: 19.37rem;
-    width: 16rem;
-    background-color: ${prop => prop.theme['base-card']};
-    border-radius: 6px 36px;
+const ContainerMenu = styled.section`
+    padding: 2rem 10rem;
 `
 
- 
+const CardContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 3.375rem;
+`
+
+const CardItem = styled.div`  
+    height: 23rem;
+    width: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: ${prop => prop.theme['base-card']};
+    border-radius: 6px 36px;
+    gap: 8px;
+    padding: 8px 16px;
+`
+
+const CardImage = styled.img`
+    height: 7.5rem;
+    min-height: 7.5rem;
+    width: 7.5rem;
+    min-width: 7.5rem;
+    object-fit: cover;
+    border-radius: 2rem;
+    margin: 1.125rem;
+`
+
+const TagDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+`
+
+const TagItem = styled.span`
+    background-color: ${prop => prop.theme['produto-yellow-light']};
+    color: ${prop => prop.theme['produto-yellow-dark']};
+    padding: 4px 8px;
+    border-radius: 100px;
+    line-height: 1.3;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+`
+
+const CardTitle = styled.h3`
+    font-family: 'Baloo 2';
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.3;
+    color: ${prop => prop.theme['base-subtitle']};
+`
+
+const CardDescription = styled.p`
+    text-align: center;
+    line-height: 1.3;
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: ${prop => prop.theme['base-label']};
+    text-overflow: ellipsis;
+    max-height: 4rem;
+    overflow: hidden;
+
+`
+
+const CardValueDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.43rem;
+    margin-top: 2.06rem;
+`
+
+const SpanPrice = styled.p`
+
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.3;
+
+    span {
+        font-family: 'Baloo 2';
+        font-weight: 700;
+        color: ${prop => prop.theme['base-subtitle']};
+        font-size: 1.125rem;
+    }
+
+`
+
+const CartIcon = styled.span`
+    background-color: ${prop => prop.theme['produto-purple-dark']};
+    color: ${prop => prop.theme['white']};
+    padding: 8px;
+    border-radius: 6px;
+    height: 2rem;
+    text-align: center;
+`
+
+const CountDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${prop => prop.theme['base-button']};
+    border-radius: 6px;
+    padding: 8px;
+    gap: 4px;
+    
+    span {
+        color: ${prop => prop.theme['produto-purple-dark']};
+        height: 0.875rem;
+        width: 0.875rem;
+        margin: 0 3px;
+    }
+
+    p{
+        font-weight: 400;
+        line-height: 1.3;
+        margin: 0 3px;
+    }
+`
+
