@@ -1,9 +1,13 @@
 import { MapPin, ShoppingCart } from "phosphor-react";
+import { useContext } from "react";
 import styled from "styled-components";
 import logo from '../../assets/Logo.svg';
+import { MenuContext } from "../../context/MenuContext";
 
 
 export function Header(){
+
+    const { countCoffeeSelected } = useContext(MenuContext);
 
     return (
         <HeaderContainer>
@@ -16,6 +20,7 @@ export function Header(){
                     </LocalizationList>
                     <CartList>
                         <ShoppingCart />
+                        { countCoffeeSelected && <CountingSelection>{countCoffeeSelected}</CountingSelection>}
                     </CartList>
                 </HeaderList>
             </nav>
@@ -32,6 +37,9 @@ const HeaderContainer = styled.header`
     align-items: center;
     width: 100vw;
     height: 6.5rem;
+    position: fixed;
+    top: 0;
+    background-color: ${prop => prop.theme['base-background']};
 
     img {
         width: 5.3rem;
@@ -70,4 +78,12 @@ const LocalizationList = styled(ListIcons)`
 const CartList = styled(ListIcons)`
     background-color: ${prop => prop.theme['produto-yellow-light']};
     color: ${prop => prop.theme['produto-yellow-dark']};
+`
+
+const CountingSelection = styled.span`
+    border-radius: 50%;
+    background-color: ${prop => prop.theme['produto-yellow-dark']};
+    color:  ${prop => prop.theme['white']};
+    padding: 8px;
+
 `

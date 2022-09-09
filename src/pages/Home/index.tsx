@@ -14,4 +14,5 @@ export function Home(){
 
 const HomeContainer = styled.main`
     padding: 5rem 2rem;
+    margin: 5rem;
 `

@@ -13,12 +13,14 @@ export function MenuReducer(state: MenuState, action: any){
         case ActionTypes.ADD_ITEM:
             return {
                 ...state,
-                menuSelected: [...state.menuSelected, action.payload.newItem]
+                menuSelected: [...state.menuSelected, action.payload.newItem],
+                countCoffeeSelected: action.payload.quantity
             }
         case ActionTypes.DELETE_ITEM:
             return {
                 ...state,
-                menuSelected: state.menuSelected.filter(item => item.id !== action.paylaod.deletedItemId)
+                menuSelected: state.menuSelected.filter(item => item.id !== action.paylaod.deletedItemId),
+                countCoffeeSelected: action.payload.quantity
             }
         default:
             return state;

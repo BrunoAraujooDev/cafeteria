@@ -8,12 +8,9 @@ import { getCoffeeMenu } from "../../../services/coffee.service"
 
 
 export function MenuCafeteria() {
-
-    console.log('oi');
     
 
-    const { countCoffeeSelected, menuSelected } = useContext(MenuContext)
-
+    const { handleMenuCart } = useContext(MenuContext)
 
     const [menuData, setMenuData] = useState<Menu[]>([{
         title: '',
@@ -22,10 +19,72 @@ export function MenuCafeteria() {
         image: '',
         id: 0
     }])
+    
+    const [quantitySelected, setQuantitySelected] = useState<number[]>(() => {
+        let newArray = new Array(16)
+        newArray.fill(0, 0, newArray.length)
+
+        return newArray;
+    })
 
     useEffect(() => {
         getCoffeeMenu().then(resp => setMenuData(resp));
     }, [])
+
+    function insertIntoCart(id: number, index: number){
+
+        const selectedCoffee = menuData.find(item => item.id === id);
+        console.log('selectedCoffee', selectedCoffee)
+
+        handleMenuCart(selectedCoffee, quantitySelected[index])
+
+    }
+
+    function addCount(index: number){
+        console.log('index', index)
+        const addedAmount = quantitySelected[index]
+
+        if(addedAmount == 0){
+            setQuantitySelected(state => {
+                console.log('state', state)
+                state.map((item, idx) => {
+                    console.log('item', idx)
+                    if(idx === index){
+                       return 1
+                    }
+                })
+                return state
+            })
+        } else {
+            setQuantitySelected(state => {
+                state.map((item, idx) => {
+                    if(idx === index){
+                       return item = item + 1
+                    }
+                })
+                return state
+            })
+        }
+
+        console.log('valor final',quantitySelected)
+    }
+
+    function deleteCount(index: number){
+        const addedAmount = quantitySelected[index]
+
+        if(addedAmount == 0){
+            setQuantitySelected(state => state)
+        } else {
+            setQuantitySelected(state => {
+                state.map((item, idx) => {
+                    if(idx === index){
+                       return item = item - 1
+                    }
+                })
+                return state
+            })
+        }
+    }
 
 
 
@@ -35,7 +94,7 @@ export function MenuCafeteria() {
             <h3>Nossos cafés</h3>
 
             <CardContainer>
-                {menuData.map((item: Menu) => {
+                {menuData.map((item: Menu, index: number) => {
                     return (
                         <CardItem key={item.id}>
                             <CardImage src={item.image} alt={item.description} />
@@ -53,17 +112,17 @@ export function MenuCafeteria() {
                             <CardValueDiv>
                                 <SpanPrice>R$ <span>9,90</span></SpanPrice>
                                 <CountDiv>
-                                    <span>
+                                    <span onClick={() => deleteCount(index)}>
                                         <Minus weight="fill" />
                                     </span>
                                     <p>
-                                        1
+                                        {quantitySelected[index] || 0}
                                     </p>
-                                    <span>
+                                    <span onClick={() => addCount(index)}>
                                         <Plus weight="fill" />
                                     </span>
                                 </CountDiv>
-                                <CartIcon>
+                                <CartIcon onClick={() => insertIntoCart(item.id, index)}>
                                     <ShoppingCartSimple weight="fill" />
                                 </CartIcon>
                             </CardValueDiv>
@@ -182,6 +241,11 @@ const CartIcon = styled.span`
     border-radius: 6px;
     height: 2rem;
     text-align: center;
+    cursor: pointer;
+
+    &:hover{
+        background-color: ${prop => prop.theme['produto-purple']};
+    }
 `
 
 const CountDiv = styled.div`
@@ -198,6 +262,11 @@ const CountDiv = styled.div`
         height: 0.875rem;
         width: 0.875rem;
         margin: 0 3px;
+        cursor: pointer;
+
+        &:hover{
+            color: ${prop => prop.theme['base-light']};
+        }
     }
 
     p{
