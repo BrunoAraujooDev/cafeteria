@@ -81,9 +81,14 @@ const CartList = styled(ListIcons)`
 `
 
 const CountingSelection = styled.span`
+    position: absolute;
+    content: '';
+    top: 1rem;
+    right: 9.5rem;
     border-radius: 50%;
     background-color: ${prop => prop.theme['produto-yellow-dark']};
     color:  ${prop => prop.theme['white']};
     padding: 8px;
+    font-size: 0.8rem;
 
 `

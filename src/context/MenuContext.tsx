@@ -24,7 +24,7 @@ interface MenuContextProp {
 export const MenuContext = createContext({} as MenuContextType);
 
 
-export async function MenuContextProvider({children } : MenuContextProp){
+export function MenuContextProvider({children } : MenuContextProp){
 
 
     const [menuState, dispatch] = useReducer(MenuReducer, 

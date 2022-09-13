@@ -8,9 +8,9 @@ import { getCoffeeMenu } from "../../../services/coffee.service"
 
 
 export function MenuCafeteria() {
-    
 
-    const { handleMenuCart } = useContext(MenuContext)
+
+    const { handleMenuCart  } = useContext(MenuContext);
 
     const [menuData, setMenuData] = useState<Menu[]>([{
         title: '',
@@ -19,73 +19,51 @@ export function MenuCafeteria() {
         image: '',
         id: 0
     }])
-    
-    const [quantitySelected, setQuantitySelected] = useState<number[]>(() => {
-        let newArray = new Array(16)
-        newArray.fill(0, 0, newArray.length)
 
-        return newArray;
-    })
+    const [quantitySelected, setQuantitySelected] = useState<number[]>(
+        () => {
+            let newArray = new Array(16)
+            newArray.fill(1, 0, newArray.length)
+
+            return newArray;
+        }
+    )
 
     useEffect(() => {
         getCoffeeMenu().then(resp => setMenuData(resp));
     }, [])
 
-    function insertIntoCart(id: number, index: number){
+
+
+    function insertIntoCart(id: number, index: number) {
 
         const selectedCoffee = menuData.find(item => item.id === id);
-        console.log('selectedCoffee', selectedCoffee)
-
+        
+       console.log(typeof  handleMenuCart);
+       
         handleMenuCart(selectedCoffee, quantitySelected[index])
 
     }
 
-    function addCount(index: number){
-        console.log('index', index)
-        const addedAmount = quantitySelected[index]
+    function addCount(index: number) {
+        const updateArray = [...quantitySelected]
 
-        if(addedAmount == 0){
-            setQuantitySelected(state => {
-                console.log('state', state)
-                state.map((item, idx) => {
-                    console.log('item', idx)
-                    if(idx === index){
-                       return 1
-                    }
-                })
-                return state
-            })
-        } else {
-            setQuantitySelected(state => {
-                state.map((item, idx) => {
-                    if(idx === index){
-                       return item = item + 1
-                    }
-                })
-                return state
-            })
-        }
-
-        console.log('valor final',quantitySelected)
+        updateArray[index] = quantitySelected[index] + 1
+        
+        setQuantitySelected( updateArray)
     }
+    
+    function deleteCount(index: number) {
+        const updateArray = [...quantitySelected]
 
-    function deleteCount(index: number){
-        const addedAmount = quantitySelected[index]
+        if(quantitySelected[index] > 1) {
+            updateArray[index] = quantitySelected[index] - 1
+            setQuantitySelected( updateArray)
 
-        if(addedAmount == 0){
-            setQuantitySelected(state => state)
-        } else {
-            setQuantitySelected(state => {
-                state.map((item, idx) => {
-                    if(idx === index){
-                       return item = item - 1
-                    }
-                })
-                return state
-            })
         }
+      
     }
-
+    
 
 
 
@@ -116,7 +94,7 @@ export function MenuCafeteria() {
                                         <Minus weight="fill" />
                                     </span>
                                     <p>
-                                        {quantitySelected[index] || 0}
+                                        {quantitySelected[index]}
                                     </p>
                                     <span onClick={() => addCount(index)}>
                                         <Plus weight="fill" />
