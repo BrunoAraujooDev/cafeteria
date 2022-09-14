@@ -17,7 +17,8 @@ export function MenuCafeteria() {
         description: '',
         ingredients: [],
         image: '',
-        id: 0
+        id: 0,
+        quantity: 0
     }])
 
     const [quantitySelected, setQuantitySelected] = useState<number[]>(

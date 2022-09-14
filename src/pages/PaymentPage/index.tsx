@@ -1,79 +1,80 @@
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MenuContext } from "../../context/MenuContext";
-import { CheckoutContainer } from "./style";
+import { CheckoutContainer, InputFormSection, MapPinDiv, InputArea, InputAreaDiv, LabelInputComplemento, CurrencyDollarDiv, PaymentOptionButton } from "./style";
 
 export function PaymentPage(){
 
     const { menuSelected } = useContext(MenuContext);
-    console.log('menuSelected', menuSelected)
+    
+
+    const [totalPay, setTotalPay] = useState<Number>(() => {
+        const total = menuSelected?.reduce((acc, item) => parseFloat((acc + (item.quantity * 9.90)).toFixed(2)) , 0) || 0
+        return total
+    });
 
     return (
         <CheckoutContainer>
             <form>
                 <h3>Complete seu pedido</h3>
-                <section>
-                    <div>
-                        <MapPin/>
-                        <h5>Endereço de Entrega</h5>
-                    </div>
-                    <p>
-                        Informe o endereço onde deseja receber seu pedido
-                    </p>
-
-                    <input type="number" placeholder="CEP"/>
-                    <input type="text" placeholder="Rua"/>
-                    <div>
-                        <input type="number" placeholder="Número"/>
-                        <input type="text" placeholder="Complemento"/>
-                    </div>
-                    <div>
-                        <input type="text" placeholder="Bairro"/>
-                        <input type="text" placeholder="Cidade"/>
-                        <input type="text" placeholder="UF"/>
-                    </div>
-                    <div>
+                <InputFormSection>
+                    <MapPinDiv>
+                        <MapPin size={22}/>
                         <div>
-                            <CurrencyDollar  weight="fill" />
-                            <h5>Pagamento</h5>
+                            <h5>Endereço de Entrega</h5>
+                            <p>
+                                Informe o endereço onde deseja receber seu pedido
+                            </p>
                         </div>
-                        <p>
-                            O pagamento é feito na entrega. Escolha a forma que deseja pagar
-                        </p>
-                        <div>
+                    </MapPinDiv>
+
+                    <InputArea type="number" placeholder="CEP"/>
+                    <InputArea type="text" placeholder="Rua"/>
+                    <InputAreaDiv>
+                        <InputArea type="number" placeholder="Número"/>
+                        <LabelInputComplemento htmlFor="">Opcional</LabelInputComplemento>
+                        <InputArea type="text" placeholder="Complemento"/>   
+                    </InputAreaDiv>
+                    <InputAreaDiv>
+                        <InputArea type="text" placeholder="Bairro"/>
+                        <InputArea type="text" placeholder="Cidade"/>
+                        <InputArea type="text" placeholder="UF"/>
+                    </InputAreaDiv>
+                    <div>
+                        <CurrencyDollarDiv>
+                            <CurrencyDollar size={22} />
+                            <div>
+                                <h5>Pagamento</h5>
+                                <p>
+                                    O pagamento é feito na entrega. Escolha a forma que deseja pagar
+                                </p>
+                            </div>
+                        </CurrencyDollarDiv>
+                        <PaymentOptionButton>
                             <CreditCard size={32}  />
-                            <input type="checkbox" id="credito"/>
-                            <label htmlFor="credito">
-                                CARTÃO DE CRÉDITO
-                            </label>
-                        </div>
-                        <div>
+                            CARTÃO DE CRÉDITO
+                        </PaymentOptionButton>
+                        <PaymentOptionButton>
                             <Bank size={32}  />
-                            <input type="checkbox" id="debito"/>
-                            <label htmlFor="debito">
                                 CARTÃO DE DÉBITO
-                            </label>
-                        </div>
-                        <div>
+                        </PaymentOptionButton>
+                        <PaymentOptionButton>
                             <Money size={32}  />
-                            <input type="checkbox" id="dinheiro"/>
-                            <label htmlFor="dinheiro">
                                 DINHEIRO
-                            </label>
-                        </div>
+                        </PaymentOptionButton>
 
                     </div>
 
 
 
 
-                </section>
+                </InputFormSection>
                 <section>
                     <h3>Cafés selecionados</h3>
                     {menuSelected?.map(coffee => {
                         return (
-                            <div>
-                                <img src={coffee.image} alt={coffee.title}/>
+                            <div key={coffee.id}>
+                                {/* <img src={coffee.image} alt={coffee.title}/> */}
                                 <div>
                                     <p>{coffee.title}</p>
                                     <div>
@@ -100,7 +101,7 @@ export function PaymentPage(){
                     })}
                     <div>
                         <p>Total de itens</p>
-                        <p>R$ total</p>
+                        <p>{`R$ ${totalPay}`}</p>
                     </div>
                     <div>
                         <p>Entrega</p>
