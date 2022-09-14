@@ -1,6 +1,8 @@
 import { Menu } from "../context/MenuContext";
 import { ActionTypes } from "./actions";
 
+
+
 interface MenuState {
     menuSelected: Menu[]
     countCoffeeSelected: number | null
@@ -14,13 +16,13 @@ export function MenuReducer(state: MenuState, action: any){
             return {
                 ...state,
                 menuSelected: [...state.menuSelected, action.payload.newItem],
-                countCoffeeSelected: action.payload.quantity
+                countCoffeeSelected: state.countCoffeeSelected + action.payload.quantity
             }
         case ActionTypes.DELETE_ITEM:
             return {
                 ...state,
                 menuSelected: state.menuSelected.filter(item => item.id !== action.paylaod.deletedItemId),
-                countCoffeeSelected: action.payload.quantity
+                countCoffeeSelected: (state.countCoffeeSelected || 0) - action.payload.quantity
             }
         default:
             return state;

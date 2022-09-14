@@ -8,10 +8,15 @@ export enum ActionTypes {
 
 export function addItemList(item: Menu | undefined, quantity: number) {
 
+    const coffeeWithQuantity = {
+        ...item,
+        quantity: quantity
+    }
+
     return {
         type: ActionTypes.ADD_ITEM,
         payload: {
-            newItem: item,
+            newItem: coffeeWithQuantity,
             quantity: quantity
         }
     }

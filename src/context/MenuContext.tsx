@@ -9,6 +9,7 @@ export interface Menu {
     ingredients: string[]
     image: string
     id: number
+    quantity?: number
 }
 
 interface MenuContextType {

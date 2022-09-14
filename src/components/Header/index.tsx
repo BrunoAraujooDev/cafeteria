@@ -1,5 +1,6 @@
 import { MapPin, ShoppingCart } from "phosphor-react";
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from '../../assets/Logo.svg';
 import { MenuContext } from "../../context/MenuContext";
@@ -19,8 +20,10 @@ export function Header(){
                         São Gonçalo, RJ
                     </LocalizationList>
                     <CartList>
-                        <ShoppingCart />
-                        { countCoffeeSelected && <CountingSelection>{countCoffeeSelected}</CountingSelection>}
+                        <NavLink to="/checkout">
+                            <ShoppingCart />
+                            { countCoffeeSelected && <CountingSelection>{countCoffeeSelected}</CountingSelection>}
+                        </NavLink>
                     </CartList>
                 </HeaderList>
             </nav>
@@ -77,18 +80,31 @@ const LocalizationList = styled(ListIcons)`
 
 const CartList = styled(ListIcons)`
     background-color: ${prop => prop.theme['produto-yellow-light']};
-    color: ${prop => prop.theme['produto-yellow-dark']};
+    color: ${prop => prop.theme['produto-yellow-dark']} ;
+    cursor: pointer;
+
+    a {
+        color: ${prop => prop.theme['produto-yellow-dark']} ; 
+
+        &:hover {
+            color: ${prop => prop.theme['produto-yellow']} ; 
+        }
+    }
 `
 
 const CountingSelection = styled.span`
     position: absolute;
     content: '';
-    top: 1rem;
+    top: 1.5rem;
     right: 9.5rem;
     border-radius: 50%;
     background-color: ${prop => prop.theme['produto-yellow-dark']};
     color:  ${prop => prop.theme['white']};
-    padding: 8px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.3;
+    width: 20px;
+    height: 16px;
+    text-align: center;
 
 `
