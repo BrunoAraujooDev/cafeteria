@@ -1,7 +1,7 @@
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
 import { MenuContext } from "../../context/MenuContext";
-import { CheckoutContainer, InputFormSection, MapPinDiv, InputArea, InputAreaDiv, LabelInputComplemento, CurrencyDollarDiv, PaymentOptionButton } from "./style";
+import { CheckoutContainer, InputFormSection, MapPinDiv, InputArea, InputAreaDiv, LabelInputComplemento, CurrencyDollarDiv, PaymentOptionButton, PaymentOptionDiv, InputDiv } from "./style";
 
 export function PaymentPage(){
 
@@ -16,8 +16,10 @@ export function PaymentPage(){
     return (
         <CheckoutContainer>
             <form>
-                <h3>Complete seu pedido</h3>
                 <InputFormSection>
+                <h3>Complete seu pedido</h3>
+                <InputDiv>
+
                     <MapPinDiv>
                         <MapPin size={22}/>
                         <div>
@@ -40,7 +42,8 @@ export function PaymentPage(){
                         <InputArea type="text" placeholder="Cidade"/>
                         <InputArea type="text" placeholder="UF"/>
                     </InputAreaDiv>
-                    <div>
+                </InputDiv>
+                    <InputDiv>
                         <CurrencyDollarDiv>
                             <CurrencyDollar size={22} />
                             <div>
@@ -50,26 +53,23 @@ export function PaymentPage(){
                                 </p>
                             </div>
                         </CurrencyDollarDiv>
-                        <PaymentOptionButton>
-                            <CreditCard size={32}  />
-                            CARTÃO DE CRÉDITO
-                        </PaymentOptionButton>
-                        <PaymentOptionButton>
-                            <Bank size={32}  />
-                                CARTÃO DE DÉBITO
-                        </PaymentOptionButton>
-                        <PaymentOptionButton>
-                            <Money size={32}  />
-                                DINHEIRO
-                        </PaymentOptionButton>
-
-                    </div>
-
-
-
-
+                        <PaymentOptionDiv>
+                            <PaymentOptionButton type='button'>
+                                <CreditCard   />
+                                CARTÃO DE CRÉDITO
+                            </PaymentOptionButton>
+                            <PaymentOptionButton type='button'>
+                                <Bank   />
+                                    CARTÃO DE DÉBITO
+                            </PaymentOptionButton>
+                            <PaymentOptionButton type='button'>
+                                <Money   />
+                                    DINHEIRO
+                            </PaymentOptionButton>
+                        </PaymentOptionDiv>
+                    </InputDiv>
                 </InputFormSection>
-                <section>
+                <InputFormSection>
                     <h3>Cafés selecionados</h3>
                     {menuSelected?.map(coffee => {
                         return (
@@ -114,7 +114,7 @@ export function PaymentPage(){
                     <button type="submit" disabled>
                         CONFIRMAR PEDIDO
                     </button>
-                </section>
+                </InputFormSection>
             </form>
         </CheckoutContainer>
     )
