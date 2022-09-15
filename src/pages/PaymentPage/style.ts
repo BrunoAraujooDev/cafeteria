@@ -12,6 +12,17 @@ export const CheckoutContainer = styled.article`
     form {
         display: flex;
         margin-top: 12.5rem;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 2rem;
+
+        @media (max-width: 1180px) {
+            flex-direction: column;
+            margin-top: 60rem;
+            padding: 5em;
+            width: 100%;
+        }
+        
 
     }
 `
@@ -133,6 +144,154 @@ export const PaymentOptionButton = styled.button`
     &:active {
         border: 1px solid ${prop => prop.theme['produto-purple']};
         background-color: ${prop => prop.theme['produto-purple-light']};
+    }
+`
+
+export const PaymentFormSection  = styled(InputFormSection) `
+    background-color: ${prop => prop.theme['base-card']};
+    border-radius: 6px 44px;
+    padding: 2.5rem;
+    gap: 24px;
+`
+
+
+export const ChoisesDiv = styled.div`
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    border-bottom: 1px solid ${prop => prop.theme['base-button']};
+
+    img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 8px;
+    }
+
+
+`
+
+export const CoffeeName = styled.p`
+    font-weight: 400;
+    line-height: 1.3;
+    font-size: 1rem;
+    color: ${prop => prop.theme['base-subtitle']};
+    margin-bottom: 10px;
+` 
+
+export const AddOrRemoveAmountDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        gap: 4px;
+        background-color: ${prop => prop.theme['base-button']};
+        border-radius: 6px;
+        border: none;
+        line-height: 1.6;
+        font-size: 0.75rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: ${prop => prop.theme['base-text']};
+
+        svg {
+            color: ${prop => prop.theme['produto-purple']};
+        }
+
+        &:hover{
+            background-color: ${prop => prop.theme['base-hover']};
+        }
+    }
+`
+
+export const CountDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${prop => prop.theme['base-button']};
+    border-radius: 6px;
+    padding: 8px;
+    gap: 4px;
+    
+    span {
+        color: ${prop => prop.theme['produto-purple-dark']};
+        height: 0.875rem;
+        width: 0.875rem;
+        margin: 0 3px;
+        cursor: pointer;
+
+        &:hover{
+            color: ${prop => prop.theme['base-light']};
+        }
+    }
+
+    p{
+        font-weight: 400;
+        line-height: 1.3;
+        margin: 0 3px;
+    }
+
+`
+
+export const PriceCoffee = styled.p` 
+    font-weight: 700;
+    line-height: 1.3;
+    color: ${prop => prop.theme['base-text']};
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
+
+export const TotalPaymentDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    p{
+        font-weight: 400;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        color: ${prop => prop.theme['base-text']};
+    }
+
+`
+
+export const TotalPlusDeliveryDiv = styled.div` 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: ${prop => prop.theme['base-subtitle']};
+    font-weight: 700;
+    font-size: 1.125rem;
+`
+
+export const SubmitButton = styled.button`
+    background-color: ${prop => prop.theme['produto-yellow']};
+    padding: 12px 8px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    color: ${prop => prop.theme['white']};
+
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+    width: 100%;
+
+    &:hover{
+        background-color: ${prop => prop.theme['produto-yellow-dark']};
     }
 `
 

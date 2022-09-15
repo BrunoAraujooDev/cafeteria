@@ -1,7 +1,8 @@
 import { Bank, CreditCard, CurrencyDollar, MapPin, Minus, Money, Plus, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
 import { MenuContext } from "../../context/MenuContext";
-import { CheckoutContainer, InputFormSection, MapPinDiv, InputArea, InputAreaDiv, LabelInputComplemento, CurrencyDollarDiv, PaymentOptionButton, PaymentOptionDiv, InputDiv } from "./style";
+import { CheckoutContainer, InputFormSection, MapPinDiv, InputArea, InputAreaDiv, LabelInputComplemento, CurrencyDollarDiv, PaymentOptionButton, 
+    PaymentOptionDiv, InputDiv, ChoisesDiv, PaymentFormSection, AddOrRemoveAmountDiv, CountDiv, CoffeeName, PriceCoffee, TotalPaymentDiv, TotalPlusDeliveryDiv, SubmitButton } from "./style";
 
 export function PaymentPage(){
 
@@ -71,14 +72,16 @@ export function PaymentPage(){
                 </InputFormSection>
                 <InputFormSection>
                     <h3>Cafés selecionados</h3>
+                    <PaymentFormSection>
+
                     {menuSelected?.map(coffee => {
                         return (
-                            <div key={coffee.id}>
-                                {/* <img src={coffee.image} alt={coffee.title}/> */}
+                            <ChoisesDiv key={coffee.id}>
+                                <img src={coffee.image} alt={coffee.title}/>
                                 <div>
-                                    <p>{coffee.title}</p>
-                                    <div>
-                                        <div>
+                                    <CoffeeName>{coffee.title}</CoffeeName>
+                                    <AddOrRemoveAmountDiv>
+                                        <CountDiv>
                                             <span>
                                                 <Minus weight="fill" />
                                             </span>
@@ -88,32 +91,33 @@ export function PaymentPage(){
                                             <span >
                                                 <Plus weight="fill" />
                                             </span>
-                                        </div>
+                                        </CountDiv>
                                         <button type="button">
-                                            <Trash size={32}  />
+                                            <Trash size={16}  />
                                             Remover
                                         </button>
-                                    </div>
+                                    </AddOrRemoveAmountDiv>
                                 </div>
-                                <p>R$ {9.90 * (coffee.quantity || 1)}</p>
-                            </div>
+                                <PriceCoffee>R$ {9.90 * (coffee.quantity || 1)}0</PriceCoffee>
+                            </ChoisesDiv>
                         )
                     })}
-                    <div>
+                    <TotalPaymentDiv>
                         <p>Total de itens</p>
-                        <p>{`R$ ${totalPay}`}</p>
-                    </div>
-                    <div>
+                        <p>{`R$ ${totalPay}0`}</p>
+                    </TotalPaymentDiv>
+                    <TotalPaymentDiv>
                         <p>Entrega</p>
-                        <p>R$ 3,50</p>
-                    </div>
-                    <div>
+                        <p>R$ 3.50</p>
+                    </TotalPaymentDiv>
+                    <TotalPlusDeliveryDiv>
                         <p>Total </p>
-                        <p>R$ total com entrega</p>
-                    </div>
-                    <button type="submit" disabled>
-                        CONFIRMAR PEDIDO
-                    </button>
+                        <p>{`R$ ${totalPay + 3.5}0`}</p>
+                    </TotalPlusDeliveryDiv>
+                    <SubmitButton type="submit" disabled>
+                        confirmar pedido
+                    </SubmitButton>
+                    </PaymentFormSection>
                 </InputFormSection>
             </form>
         </CheckoutContainer>

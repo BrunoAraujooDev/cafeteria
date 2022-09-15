@@ -12,7 +12,9 @@ export function Header(){
 
     return (
         <HeaderContainer>
-            <img src={logo} alt="Logo da cafeteria com um copo de café roxo à esquerda e o nome coffee delivery na direita" />
+            <NavLink to="/">
+                <img src={logo} alt="Logo da cafeteria com um copo de café roxo à esquerda e o nome coffee delivery na direita" />
+            </NavLink>
             <nav>
                 <HeaderList>
                     <LocalizationList>
