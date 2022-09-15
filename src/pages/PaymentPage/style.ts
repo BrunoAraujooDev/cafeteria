@@ -8,10 +8,10 @@ export const CheckoutContainer = styled.article`
     height: 100vh;
     width: 100vw;
     
-
+    
     form {
         display: flex;
-        margin-top: 12.5rem;
+        margin-top: 8rem;
         justify-content: center;
         align-items: flex-start;
         gap: 2rem;
@@ -34,7 +34,13 @@ export const InputFormSection = styled.section`
     align-items: flex-start;
     gap: 2rem;
     
-
+    h3 {
+        font-family: 'Baloo 2', sans-serif;
+        font-weight: 700;
+        font-size: 1.125rem;
+        line-height: 1.3;
+        color: ${prop => prop.theme['base-subtitle']};
+    }
 `
 
 export const InputDiv = styled.div`
@@ -273,7 +279,7 @@ export const TotalPlusDeliveryDiv = styled.div`
     width: 100%;
     color: ${prop => prop.theme['base-subtitle']};
     font-weight: 700;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
 `
 
 export const SubmitButton = styled.button`

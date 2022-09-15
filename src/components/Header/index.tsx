@@ -97,16 +97,13 @@ const CartList = styled(ListIcons)`
 const CountingSelection = styled.span`
     position: absolute;
     content: '';
-    top: 1.5rem;
-    right: 9.5rem;
+    top: 23%;
     border-radius: 50%;
     background-color: ${prop => prop.theme['produto-yellow-dark']};
     color:  ${prop => prop.theme['white']};
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.3;
-    width: 20px;
-    height: 16px;
-    text-align: center;
+    padding: 3px 5px;
 
 `
