@@ -3,10 +3,29 @@ import { useContext, useState } from "react";
 import { MenuContext } from "../../context/MenuContext";
 import { CheckoutContainer, InputFormSection, MapPinDiv, InputArea, InputAreaDiv, LabelInputComplemento, CurrencyDollarDiv, PaymentOptionButton, 
     PaymentOptionDiv, InputDiv, ChoisesDiv, PaymentFormSection, AddOrRemoveAmountDiv, CountDiv, CoffeeName, PriceCoffee, TotalPaymentDiv, TotalPlusDeliveryDiv, SubmitButton } from "./style";
+import { useForm } from 'react-hook-form';
+
+
+export interface checkoutData {
+    cep: number,
+    rua: string,
+    numero: number,
+    bairro: string,
+    complemento?: string,
+    cidade: string,
+    uf: string
+}
+
 
 export function PaymentPage(){
 
-    const { menuSelected } = useContext(MenuContext);
+    const { menuSelected, handlePaymentCheckout } = useContext(MenuContext);
+
+    const {   register, handleSubmit,  formState: { errors } } = useForm<checkoutData>()
+    
+    const [ paymentMethod, setPaymentMethod] = useState<String>('');
+
+
     
 
     const [totalPay, setTotalPay] = useState<Number>(() => {
@@ -14,9 +33,18 @@ export function PaymentPage(){
         return total
     });
 
+    const TotalPayPlusTaxes = totalPay.valueOf() + 3.5
+
+    function handleForm(data: checkoutData){
+        handlePaymentCheckout(data, paymentMethod)
+
+    }
+    
+    
+
     return (
         <CheckoutContainer>
-            <form>
+            <form onSubmit={handleSubmit(handleForm)}>
                 <InputFormSection>
                 <h3>Complete seu pedido</h3>
                 <InputDiv>
@@ -31,17 +59,37 @@ export function PaymentPage(){
                         </div>
                     </MapPinDiv>
 
-                    <InputArea type="number" placeholder="CEP"/>
-                    <InputArea type="text" placeholder="Rua"/>
+                    <InputArea type="number" required placeholder="CEP"  maxLength={8} minLength={8}
+                        {...register('cep')}
+                    />
+                    {errors.cep && 'Informe um CEP com o total de 8 caracteres'}
+                    <InputArea type="text" required placeholder="Rua" min={5}
+                        {...register('rua')}
+                    />
+                    {errors.rua && 'Informe o endereço de entrega'}
                     <InputAreaDiv>
-                        <InputArea type="number" placeholder="Número"/>
+                        <InputArea type="number" required placeholder="Número" min={1}
+                            {...register('numero')}
+                        />
+                        {errors.numero && 'Informe o número de sua localização'}
                         <LabelInputComplemento htmlFor="">Opcional</LabelInputComplemento>
-                        <InputArea type="text" placeholder="Complemento"/>   
+                        <InputArea type="text"  placeholder="Complemento"
+                            {...register('complemento')}
+                        />   
                     </InputAreaDiv>
                     <InputAreaDiv>
-                        <InputArea type="text" placeholder="Bairro"/>
-                        <InputArea type="text" placeholder="Cidade"/>
-                        <InputArea type="text" placeholder="UF"/>
+                        <InputArea type="text" required placeholder="Bairro" min={3}
+                            {...register('bairro')}
+                        />
+                        {errors.bairro && 'Informe o bairro de entrega'}
+                        <InputArea type="text" required placeholder="Cidade" min={3}
+                            {...register('cidade')}
+                        />
+                        {errors.cidade && 'Informe a cidade de sua localização'}
+                        <InputArea type="text" required placeholder="UF" min={2}
+                            {...register('uf')}
+                        />
+                        {errors.uf && 'Informe a UF de sua localização'}
                     </InputAreaDiv>
                 </InputDiv>
                     <InputDiv>
@@ -55,15 +103,15 @@ export function PaymentPage(){
                             </div>
                         </CurrencyDollarDiv>
                         <PaymentOptionDiv>
-                            <PaymentOptionButton type='button'>
+                            <PaymentOptionButton type='button' onClick={() => setPaymentMethod('CARTÃO DE CRÉDITO')}>
                                 <CreditCard   />
                                 CARTÃO DE CRÉDITO
                             </PaymentOptionButton>
-                            <PaymentOptionButton type='button'>
+                            <PaymentOptionButton type='button' onClick={() => setPaymentMethod('CARTÃO DE DÉBITO')}>
                                 <Bank   />
                                     CARTÃO DE DÉBITO
                             </PaymentOptionButton>
-                            <PaymentOptionButton type='button'>
+                            <PaymentOptionButton type='button' onClick={() => setPaymentMethod('DINHEIRO')}>
                                 <Money   />
                                     DINHEIRO
                             </PaymentOptionButton>
@@ -112,9 +160,9 @@ export function PaymentPage(){
                     </TotalPaymentDiv>
                     <TotalPlusDeliveryDiv>
                         <p>Total </p>
-                        <p>{`R$ ${totalPay + 3.5}0`}</p>
+                        <p>{`R$ ${TotalPayPlusTaxes}0`}</p>
                     </TotalPlusDeliveryDiv>
-                    <SubmitButton type="submit" disabled>
+                    <SubmitButton type="submit" disabled={paymentMethod === ''}>
                         confirmar pedido
                     </SubmitButton>
                     </PaymentFormSection>

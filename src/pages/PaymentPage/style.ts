@@ -296,7 +296,11 @@ export const SubmitButton = styled.button`
     text-transform: uppercase;
     width: 100%;
 
-    &:hover{
+    &:disabled{
+        cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover{
         background-color: ${prop => prop.theme['produto-yellow-dark']};
     }
 `

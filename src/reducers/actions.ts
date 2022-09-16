@@ -1,8 +1,10 @@
 import { Menu } from "../context/MenuContext"
+import { checkoutData } from "../pages/PaymentPage"
 
 export enum ActionTypes {
     ADD_ITEM =  'ADD_ITEM',
-    DELETE_ITEM = 'DELETE_ITEM'
+    DELETE_ITEM = 'DELETE_ITEM',
+    HANDLE_PAYMENT = 'HANDLE_PAYMENT'
 
 }
 
@@ -29,6 +31,16 @@ export function deleteItemList(id: number, quantity: number) {
         payload: {
             deletedItemId: id,
             quantity: quantity
+        }
+    }
+}
+
+export function handlePayment(payment: checkoutData, method: String){
+    return{
+        type: ActionTypes.HANDLE_PAYMENT,
+        payload: {
+            checkout: payment,
+            method
         }
     }
 }

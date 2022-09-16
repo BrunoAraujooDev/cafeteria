@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useReducer } from "react";
-import { addItemList } from "../reducers/actions";
+import { checkoutData } from "../pages/PaymentPage";
+import { addItemList, handlePayment } from "../reducers/actions";
 import { MenuReducer } from "../reducers/reducer";
 
 
@@ -16,6 +17,8 @@ interface MenuContextType {
     menuSelected?: Menu[]
     countCoffeeSelected?: number | null
     handleMenuCart: (item: Menu | undefined, quantity: number) => void
+    handlePaymentCheckout: (item: checkoutData, method: String) => void
+    paymentInfo?: checkoutData
 }
 
 interface MenuContextProp {
@@ -39,11 +42,15 @@ export function MenuContextProvider({children } : MenuContextProp){
         dispatch(addItemList(item, quantity))
     }
 
+    function handlePaymentCheckout(paymentForm: checkoutData, method: String){
+        dispatch(handlePayment(paymentForm, method))
+    }
 
-    const { menuSelected, countCoffeeSelected } = menuState;
+
+    const { menuSelected, countCoffeeSelected, paymentInfo } = menuState;
 
 return (
-    <MenuContext.Provider value={{menuSelected, countCoffeeSelected, handleMenuCart }}>
+    <MenuContext.Provider value={{menuSelected, countCoffeeSelected, handleMenuCart, paymentInfo, handlePaymentCheckout }}>
         {children}
     </MenuContext.Provider>
 )
