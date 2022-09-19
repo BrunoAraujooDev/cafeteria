@@ -4,6 +4,7 @@ import { MenuContext } from "../../context/MenuContext";
 import { CheckoutContainer, InputFormSection, MapPinDiv, InputArea, InputAreaDiv, LabelInputComplemento, CurrencyDollarDiv, PaymentOptionButton, 
     PaymentOptionDiv, InputDiv, ChoisesDiv, PaymentFormSection, AddOrRemoveAmountDiv, CountDiv, CoffeeName, PriceCoffee, TotalPaymentDiv, TotalPlusDeliveryDiv, SubmitButton } from "./style";
 import { useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
 
 
 export interface checkoutData {
@@ -14,6 +15,7 @@ export interface checkoutData {
     complemento?: string,
     cidade: string,
     uf: string
+    method?: string
 }
 
 
@@ -23,8 +25,10 @@ export function PaymentPage(){
 
     const {   register, handleSubmit,  formState: { errors } } = useForm<checkoutData>()
     
-    const [ paymentMethod, setPaymentMethod] = useState<String>('');
+    const [ paymentMethod, setPaymentMethod] = useState<string>('');
 
+
+    const navigate = useNavigate();
 
     
 
@@ -36,7 +40,9 @@ export function PaymentPage(){
     const TotalPayPlusTaxes = totalPay.valueOf() + 3.5
 
     function handleForm(data: checkoutData){
-        handlePaymentCheckout(data, paymentMethod)
+        handlePaymentCheckout({...data, method: paymentMethod})
+
+        navigate("/success")
 
     }
     

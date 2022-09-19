@@ -39,8 +39,6 @@ export function MenuCafeteria() {
     function insertIntoCart(id: number, index: number) {
 
         const selectedCoffee = menuData.find(item => item.id === id);
-        
-       console.log(typeof  handleMenuCart);
        
         handleMenuCart(selectedCoffee, quantitySelected[index])
 

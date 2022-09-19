@@ -35,12 +35,11 @@ export function deleteItemList(id: number, quantity: number) {
     }
 }
 
-export function handlePayment(payment: checkoutData, method: String){
+export function handlePayment(payment: checkoutData){
     return{
         type: ActionTypes.HANDLE_PAYMENT,
         payload: {
-            checkout: payment,
-            method
+            checkout: payment
         }
     }
 }

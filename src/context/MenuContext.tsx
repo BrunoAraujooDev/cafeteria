@@ -17,7 +17,7 @@ interface MenuContextType {
     menuSelected?: Menu[]
     countCoffeeSelected?: number | null
     handleMenuCart: (item: Menu | undefined, quantity: number) => void
-    handlePaymentCheckout: (item: checkoutData, method: String) => void
+    handlePaymentCheckout: (item: checkoutData) => void
     paymentInfo?: checkoutData
 }
 
@@ -42,8 +42,8 @@ export function MenuContextProvider({children } : MenuContextProp){
         dispatch(addItemList(item, quantity))
     }
 
-    function handlePaymentCheckout(paymentForm: checkoutData, method: String){
-        dispatch(handlePayment(paymentForm, method))
+    function handlePaymentCheckout(paymentForm: checkoutData){
+        dispatch(handlePayment(paymentForm))
     }
 
 
