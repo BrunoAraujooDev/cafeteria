@@ -23,7 +23,7 @@ export function MenuReducer(state: MenuState, action: any){
         case ActionTypes.DELETE_ITEM:
             return {
                 ...state,
-                menuSelected: state.menuSelected.filter(item => item.id !== action.paylaod.deletedItemId),
+                menuSelected: state.menuSelected.filter(item => item.id !== action.payload.deletedItemId),
                 countCoffeeSelected: (state.countCoffeeSelected || 0) - action.payload.quantity
             }
         case ActionTypes.HANDLE_PAYMENT:

@@ -21,16 +21,18 @@ export interface checkoutData {
 
 export function PaymentPage(){
 
-    const { menuSelected, handlePaymentCheckout } = useContext(MenuContext);
+    const { menuSelected, handlePaymentCheckout, handleDeleteFromCart } = useContext(MenuContext);
 
     const {   register, handleSubmit,  formState: { errors } } = useForm<checkoutData>()
     
     const [ paymentMethod, setPaymentMethod] = useState<string>('');
 
+    const [getItens, setGetItens] = useState<Number>(menuSelected?.length || 0)
+
 
     const navigate = useNavigate();
 
-    
+        
 
     const [totalPay, setTotalPay] = useState<Number>(() => {
         const total = menuSelected?.reduce((acc, item) => parseFloat((acc + (item.quantity * 9.90)).toFixed(2)) , 0) || 0
@@ -44,6 +46,44 @@ export function PaymentPage(){
 
         navigate("/success")
 
+    }
+
+    function handleRemoveItem(id: number, quantity: number){
+        handleDeleteFromCart(id, quantity)
+
+        const amount = (menuSelected?.length && menuSelected?.length - 1) || 0
+
+        setGetItens(amount)
+
+    }
+
+    function decreaseAmount(id: number){
+
+        menuSelected?.map(item => {
+            
+            if(item.id == id && item.quantity > 1) {
+                item.quantity -= 1
+                setTotalPay(state => (state as number) - 9.90) 
+            }
+        })
+
+
+    }
+
+    function increaseAmount(id: number){
+
+        menuSelected?.map(item => {
+            
+            if(item.id == id) {
+                item.quantity += 1
+                setTotalPay(state => (state as number) + 9.90) 
+            }
+        })
+
+        
+
+        console.log(menuSelected);
+        
     }
     
     
@@ -136,29 +176,29 @@ export function PaymentPage(){
                                     <CoffeeName>{coffee.title}</CoffeeName>
                                     <AddOrRemoveAmountDiv>
                                         <CountDiv>
-                                            <span>
+                                            <span onClick={ () => decreaseAmount(coffee.id)}>
                                                 <Minus weight="fill" />
                                             </span>
                                             <p>
                                                 {coffee.quantity}
                                             </p>
-                                            <span >
+                                            <span onClick={ () => increaseAmount(coffee.id)}>
                                                 <Plus weight="fill" />
                                             </span>
                                         </CountDiv>
-                                        <button type="button">
+                                        <button type="button" onClick={() => handleRemoveItem(coffee.id, coffee.quantity)}>
                                             <Trash size={16}  />
                                             Remover
                                         </button>
                                     </AddOrRemoveAmountDiv>
                                 </div>
-                                <PriceCoffee>R$ {9.90 * (coffee.quantity || 1)}0</PriceCoffee>
+                                <PriceCoffee>R$ {(9.90 * (coffee.quantity || 1)).toFixed(2)}</PriceCoffee>
                             </ChoisesDiv>
                         )
                     })}
                     <TotalPaymentDiv>
                         <p>Total de itens</p>
-                        <p>{`R$ ${totalPay}0`}</p>
+                        <p>{`R$ ${totalPay.toFixed(2)}`}</p>
                     </TotalPaymentDiv>
                     <TotalPaymentDiv>
                         <p>Entrega</p>
@@ -166,9 +206,9 @@ export function PaymentPage(){
                     </TotalPaymentDiv>
                     <TotalPlusDeliveryDiv>
                         <p>Total </p>
-                        <p>{`R$ ${TotalPayPlusTaxes}0`}</p>
+                        <p>{`R$ ${TotalPayPlusTaxes.toFixed(2)}`}</p>
                     </TotalPlusDeliveryDiv>
-                    <SubmitButton type="submit" disabled={paymentMethod === ''}>
+                    <SubmitButton type="submit" disabled={paymentMethod == ''  && getItens == 0}>
                         confirmar pedido
                     </SubmitButton>
                     </PaymentFormSection>
